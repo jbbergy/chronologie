@@ -1,0 +1,18 @@
+{
+  "name": "chronologiejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "predeploy": "rm -rf dist && parcel build index.html --public-url /chronologiejs",
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gh-pages": "^3.1.0",
+    "sass": "^1.32.8"
+  }
+}
