@@ -17,6 +17,16 @@ window.onload = () => {
     chronologie.addEvent(new Event( 1, () => { console.log('1 Minutes')}, TIME_UNIT.MINUT))
     chronologie.addEvent(new Event( 1.2, () => { console.log('1.2 Minutes')}, TIME_UNIT.MINUT))
 
+    const eventElement = document.querySelector('#events')
+
+    let eventIdx = 0
+    chronologie.events?.forEach(evt => {
+        const newElement = document.createElement('p')
+        newElement.innerHTML = `${eventIdx} : ${evt.timeTrigger} ${evt.timeUnit} => ${evt.triggered}`
+        eventElement.appendChild(newElement)
+        eventIdx++
+    })
+
     startBtn.addEventListener('click', () => {
         try {
             chronologie.start()

@@ -8,9 +8,17 @@
     <title>Document</title>
 </head>
 <body>
-    <button id="start">START</button>
-    <button id="stop">STOP</button>
-    <button id="restart">RESTART</button>
+    <header class="header">
+        <h1 class="header__title">ChronologieJS</h1>
+    </header>
+    <section class="main-section">
+        <div class="main-section__buttons">
+            <button class="main-section__button" id="start">START</button>
+            <button class="main-section__button" id="stop">STOP</button>
+            <button class="main-section__button" id="restart">RESTART</button>
+        </div>
+        <div class="main-section__events" id="events"></div>
+    </section>
     <script src="./index.js"></script>
 </body>
 </html>

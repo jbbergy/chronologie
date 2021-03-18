@@ -22,7 +22,6 @@ export default class Chronologie {
             return
         }
 
-        event.triggered = false
         this.events.push(event)
     }
 
@@ -60,6 +59,16 @@ export default class Chronologie {
             if (event) {
                 event.callback()
                 event.triggered = true
+                
+                const eventElement = document.querySelector('#events')
+                eventElement.innerHTML = ''
+                let idx = 0
+                this.events?.forEach(evt => {
+                    const newElement = document.createElement('p')
+                    newElement.innerHTML = `${idx} : ${evt.timeTrigger} ${evt.timeUnit} => ${evt.triggered}`
+                    eventElement.appendChild(newElement)
+                    idx++
+                })
             }
         }, 1)
     }

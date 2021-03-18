@@ -5,5 +5,6 @@ export default class Event {
         this.timeTrigger = timeTrigger
         this.timeUnit = timeUnit || TIME_UNIT.SECOND
         this.callback = callback
+        this.triggered = false
     }
 }

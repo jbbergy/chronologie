@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
 *,
 *::after,
 *::before {
@@ -11,5 +13,58 @@ html {
 body {
   font-family: Lato, sans-serif;
   box-sizing: border-box;
-  background-color: lightcoral;
+  background-color: #0a2e36;
+  color: #eeeeff;
+
+  .header {
+    width: 100vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+  }
+
+  .main-section {
+    width: 100vw;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &__buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #bbbe64;
+      border: 0;
+      min-width: 10rem;
+      min-height: 5rem;
+      border-radius: 1.5rem;
+      margin: 1rem 1rem 1rem 1rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s ease-in-out;
+      &:hover {
+        background-color: lighten( #bbbe64, 12%);
+        transform: translateY(-0.5rem);
+      }
+    }
+
+    &__events {
+      background-color: #6c6ea0;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      font-size: 1.8rem;
+      margin-top: 2rem;
+    }
+  }
 }
