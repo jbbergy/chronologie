@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: Lato, sans-serif;
+  box-sizing: border-box;
+  background-color: #0a2e36;
+  color: #eeeeff;
+}
+body .header {
+  width: 100vw;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+}
+body .main-section {
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+body .main-section__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .main-section__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #bbbe64;
+  border: 0;
+  min-width: 10rem;
+  min-height: 5rem;
+  border-radius: 1.5rem;
+  margin: 1rem 1rem 1rem 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+body .main-section__button:hover {
+  background-color: #ced08f;
+  transform: translateY(-0.5rem);
+}
+body .main-section__events {
+  background-color: #6c6ea0;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  font-size: 1.8rem;
+  margin-top: 2rem;
+}
+
+/*# sourceMappingURL=/main.48b3db1d.css.map */
