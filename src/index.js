@@ -4,26 +4,45 @@ import { TIME_UNIT } from './js/chronologiejs/enums'
 
 window.onload = () => {
 
+    function backgroundFlash () {
+        const element = document.querySelector('.chonologiejs-demo')
+        if (element) {
+            element.style.backgroundColor = '#125361'
+        }
+        setTimeout(() => {
+            element.style.backgroundColor = '#0a2e36'
+        }, 150);
+    }
+
     const startBtn = document.querySelector('#start')
     const stopBtn = document.querySelector('#stop')
     const restartBtn = document.querySelector('#restart')
+    const audioElement = document.querySelector('#audio')
+    startBtn.disabled = true
+    stopBtn.disabled = true
+    restartBtn.disabled = true
 
     const chronologie = new Chronologie()
 
-    chronologie.addEvent(new Event( 100, () => { console.log('100 Millisecondes', Date.now())}, TIME_UNIT.MILLISECOND))
-    chronologie.addEvent(new Event( 500, () => { console.log('500 Millisecondes', Date.now())}, TIME_UNIT.MILLISECOND))
-    chronologie.addEvent(new Event( 2, () => { console.log('2 Secondes', Date.now())}, TIME_UNIT.SECOND))
-    chronologie.addEvent(new Event( 2.3, () => { console.log('2.3 Secondes', Date.now())}, TIME_UNIT.SECOND))
-    chronologie.addEvent(new Event( 4, () => { console.log('4 Secondes', Date.now())}))
-    chronologie.addEvent(new Event( 30, () => { console.log('30 Secondes', Date.now())}, TIME_UNIT.SECOND))
-    chronologie.addEvent(new Event( 0.5, () => { console.log('0.5 Minutes', Date.now())}, TIME_UNIT.MINUT))
-    chronologie.addEvent(new Event( 1, () => { console.log('1 Minutes', Date.now())}, TIME_UNIT.MINUT))
-    chronologie.addEvent(new Event( 1.2, () => { console.log('1.2 Minutes', Date.now())}, TIME_UNIT.MINUT))
+    console.log('Building events queue')
+    const events = []
+    for (let index = 6100; index < 107000; index += 770) {
+        events.push(new Event( index, backgroundFlash))
+    }
+    console.log('Events queue builded')
+    
+    startBtn.disabled = false
+    stopBtn.disabled = false
+    restartBtn.disabled = false
 
-    chronologie.updateEventsLog()
-
+    events.forEach(evt => chronologie.addEvent(evt))
+    
     startBtn.addEventListener('click', () => {
         try {
+            if (audioElement) {
+                audioElement.volume = 0.30
+                audioElement.play()
+            }
             chronologie.start()
         } catch (e) {
             console.error('start', e)
@@ -32,6 +51,10 @@ window.onload = () => {
 
     stopBtn.addEventListener('click', () => {
         try {
+            if (audioElement) {
+                audioElement.pause()
+                audioElement.currentTime = 0
+            }
             chronologie.stop()
         } catch (e) {
             console.error('stop', e)
@@ -40,9 +63,14 @@ window.onload = () => {
 
     restartBtn.addEventListener('click', () => {
         try {
+            if (audioElement) {
+                audioElement.pause()
+                audioElement.currentTime = 0
+                audioElement.play()
+            }
             chronologie.restart()
         } catch (e) {
-            console.error('stop', e)
+            console.error('restart', e)
         }
     })
 }

@@ -1,4 +1,4 @@
-import { TIME_UNIT_VALUE, TIME_UNIT_TEXT, TIME_UNIT } from './enums'
+import { TIME_UNIT_VALUE, TIME_UNIT } from './enums'
 
 export default class Chronologie {
     constructor () {
@@ -39,22 +39,16 @@ export default class Chronologie {
                 console.log('ChronologieJS: event', evt.uuid ,' triggered at ', Date.now())
                 evt.callback()
                 evt.triggered = true
-                this.updateEventsLog() 
+                if(this.isAllEventsTriggered()) {
+                    this.stop()
+                }
                 clearTimeout(evt.timerId)
             }, this.convertToMillisecondes(evt.timeTrigger, evt.timeUnit))
         })
     }
 
-    updateEventsLog () {
-        const eventElement = document.querySelector('#chronologie-events')
-        eventElement.innerHTML = ''
-        let idx = 0
-        this.events?.forEach(evt => {
-            const newElement = document.createElement('p')
-            newElement.innerHTML = `[${idx}] ${evt.uuid} : ${evt.timeTrigger} ${TIME_UNIT_TEXT[evt.timeUnit]} => ${evt.triggered}`
-            eventElement.appendChild(newElement)
-            idx++
-        })
+    isAllEventsTriggered () {
+        return this.events.findIndex(evt => evt.triggered === false) === -1
     }
 
     convertToMillisecondes (value, unit) {
@@ -79,13 +73,12 @@ export default class Chronologie {
 
     stop () {
         this.timestampEnd = Date.now()
-        console.log('ChronologieJS: STOP', (this.timestampEnd - this.timestampStart), 'ms')
+        console.log('ChronologieJS: STOP duration ', (this.timestampEnd - this.timestampStart), 'ms')
         this.events.forEach(evt => {
             if (!evt.triggered) {
                 clearTimeout(evt.timerId)
             }
             evt.triggered = false
-            this.updateEventsLog()
         })
     }
 
