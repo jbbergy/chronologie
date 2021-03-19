@@ -1,12 +1,8 @@
 import { TIME_UNIT_VALUE, TIME_UNIT_TEXT, TIME_UNIT } from './enums'
 
 export default class Chronologie {
-    constructor (verbose = false) {
-        this.intervalId = null
-        this.intervalTime = 40
-        this.elapsedTime = 0
+    constructor () {
         this.events = []
-        this.verbose = verbose
         this.timestampStart = null
         this.timestampEnd = null
     }
@@ -27,7 +23,7 @@ export default class Chronologie {
 
     start () {
         this.timestampStart = Date.now()
-        console.log('START', this.timestampStart, 'ms')
+        console.log('ChronologieJS : START', this.timestampStart, 'ms')
         if (this.intervalId) {
             throw Error('You already start the chronologie.')
             return
@@ -38,39 +34,24 @@ export default class Chronologie {
             return
         }
 
-        this.events.forEach(evt => evt.triggered = false)
-
-        this.elapsedTime = 0
-
-        this.intervalId = setInterval(() => {
-            this.elapsedTime++
-            
-            if (this.verbose) console.log('Elapsed Time', this.elapsedTime, ' ms')
-
-            const eventIdx = this.events.findIndex(evt => {
-                return (
-                    this.convertToMillisecondes(evt.timeTrigger, evt.timeUnit) <= this.elapsedTime
-                    && evt.triggered === false
-                )
-            })
-
-            const event = this.events[eventIdx]
-
-            if (event) {
-                event.callback()
-                event.triggered = true
+        this.events.forEach(evt => {
+            evt.timerId = setTimeout(() => {
+                console.log('ChronologieJS: event', evt.uuid ,' triggered at ', Date.now())
+                evt.callback()
+                evt.triggered = true
                 this.updateEventsLog() 
-            }
-        }, 1)
+                clearTimeout(evt.timerId)
+            }, this.convertToMillisecondes(evt.timeTrigger, evt.timeUnit))
+        })
     }
 
     updateEventsLog () {
-        const eventElement = document.querySelector('#events')
+        const eventElement = document.querySelector('#chronologie-events')
         eventElement.innerHTML = ''
         let idx = 0
         this.events?.forEach(evt => {
             const newElement = document.createElement('p')
-            newElement.innerHTML = `${idx} : ${evt.timeTrigger} ${evt.timeUnit} => ${evt.triggered}`
+            newElement.innerHTML = `[${idx}] ${evt.uuid} : ${evt.timeTrigger} ${TIME_UNIT_TEXT[evt.timeUnit]} => ${evt.triggered}`
             eventElement.appendChild(newElement)
             idx++
         })
@@ -98,13 +79,14 @@ export default class Chronologie {
 
     stop () {
         this.timestampEnd = Date.now()
-        console.log('STOP', (this.timestampEnd - this.timestampStart), 'ms')
-        if (this.intervalId) {
-            clearInterval(this.intervalId)
-            this.intervalId = null
-            this.events.forEach(evt => evt.triggered = false)
-            this.updateEventsLog
-        }
+        console.log('ChronologieJS: STOP', (this.timestampEnd - this.timestampStart), 'ms')
+        this.events.forEach(evt => {
+            if (!evt.triggered) {
+                clearTimeout(evt.timerId)
+            }
+            evt.triggered = false
+            this.updateEventsLog()
+        })
     }
 
     restart () {
