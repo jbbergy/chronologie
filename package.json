@@ -1,7 +1,17 @@
 {
   "name": "chronologiejs",
   "version": "1.0.0",
+  "author": "Jean-baptiste Bergy",
+  "license": "MIT",
   "description": "Trigger event at specific timecode",
+  "bugs": {
+    "url": "https://github.com/jbbergy/chronologiejs/issues"
+  },
+  "homepage": "https://github.com/jbbergy/chronologiejs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbbergy/chronologiejs.git"
+  },
   "main": "index.js",
   "scripts": {
     "build-dev": "parcel build ./src/index.js --no-minify --public-url ./",
@@ -9,8 +19,7 @@
   },
   "keywords": ["chrono", "chronologie", "chronologiejs", "trigger", "time", 
     "timeline", "event", "events", "functions", "function", "methods", "method", "callback"],
-  "author": "Jean-baptiste Bergy",
-  "license": "MIT",
+
   "devDependencies": {
     "sass": "~1.32.8"
   },
