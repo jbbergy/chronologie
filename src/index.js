@@ -1,77 +1,89 @@
-import Chronologie from './js/chronologiejs/index'
-import Event from './js/chronologiejs/event.class'
-import { TIME_UNIT } from './js/chronologiejs/enums'
+import { TIME_UNIT_VALUE, TIME_UNIT } from './enums'
 
-window.onload = () => {
-
-    function backgroundFlash () {
-        const element = document.querySelector('.chonologiejs-demo')
-        if (element) {
-            element.style.backgroundColor = '#125361'
-        }
-        setTimeout(() => {
-            element.style.backgroundColor = '#0a2e36'
-        }, 150);
+export default class Chronologie {
+    constructor () {
+        this.events = []
+        this.timestampStart = null
+        this.timestampEnd = null
     }
 
-    const startBtn = document.querySelector('#start')
-    const stopBtn = document.querySelector('#stop')
-    const restartBtn = document.querySelector('#restart')
-    const audioElement = document.querySelector('#audio')
-    startBtn.disabled = true
-    stopBtn.disabled = true
-    restartBtn.disabled = true
+    addEvent (event) {
+        if (!event?.timeTrigger) {
+            throw Error('Event format unvalid. Missing \'timeTrigger\' attribute.')
+            return
+        }
 
-    const chronologie = new Chronologie()
+        if (!event?.callback) {
+            throw Error('Event format unvalid. Missing \'callback\' function.')
+            return
+        }
 
-    console.log('Building events queue')
-    const events = []
-    for (let index = 6100; index < 107000; index += 770) {
-        events.push(new Event( index, backgroundFlash))
+        this.events.push(event)
     }
-    console.log('Events queue builded')
 
-    startBtn.disabled = false
-    stopBtn.disabled = false
-    restartBtn.disabled = false
-
-    events.forEach(evt => chronologie.addEvent(evt))
-    
-    startBtn.addEventListener('click', () => {
-        try {
-            if (audioElement) {
-                audioElement.volume = 0.30
-                audioElement.currentTime = 0
-                audioElement.play()
-            }
-            chronologie.start()
-        } catch (e) {
-            console.error('start', e)
+    start () {
+        this.timestampStart = Date.now()
+        console.log('ChronologieJS : START', this.timestampStart, 'ms')
+        if (this.intervalId) {
+            throw Error('You already start the chronologie.')
+            return
         }
-    })
 
-    stopBtn.addEventListener('click', () => {
-        try {
-            if (audioElement) {
-                audioElement.pause()
-                audioElement.currentTime = 0
-            }
-            chronologie.stop()
-        } catch (e) {
-            console.error('stop', e)
+        if (this.events?.length === 0) {
+            throw Error('You have no events set. Use the addEvent() method.')
+            return
         }
-    })
 
-    restartBtn.addEventListener('click', () => {
-        try {
-            if (audioElement) {
-                audioElement.pause()
-                audioElement.currentTime = 0
-                audioElement.play()
-            }
-            chronologie.restart()
-        } catch (e) {
-            console.error('restart', e)
+        this.events.forEach(evt => {
+            evt.timerId = setTimeout(() => {
+                console.log('ChronologieJS: event', evt.uuid ,' triggered at ', Date.now())
+                evt.callback()
+                evt.triggered = true
+                if(this.isAllEventsTriggered()) {
+                    this.stop()
+                }
+                clearTimeout(evt.timerId)
+            }, this.convertToMillisecondes(evt.timeTrigger, evt.timeUnit))
+        })
+    }
+
+    isAllEventsTriggered () {
+        return this.events.findIndex(evt => evt.triggered === false) === -1
+    }
+
+    convertToMillisecondes (value, unit) {
+        let result = value
+        switch (unit) {
+            case TIME_UNIT.SECOND: 
+                result = value * TIME_UNIT_VALUE.SECOND
+                break;
+            case TIME_UNIT.MINUT: 
+                result = (value*60) * TIME_UNIT_VALUE.SECOND
+                break;
+            case TIME_UNIT.HOUR: 
+                result = ((value*60)*60) * TIME_UNIT_VALUE.SECOND
+                break;
         }
-    })
+        return result
+    } 
+
+    isStarted () {
+        return !!this.intervalId
+    }
+
+    stop () {
+        this.timestampEnd = Date.now()
+        console.log('ChronologieJS: STOP duration ', (this.timestampEnd - this.timestampStart), 'ms')
+        this.events.forEach(evt => {
+            if (!evt.triggered) {
+                clearTimeout(evt.timerId)
+            }
+            evt.triggered = false
+        })
+    }
+
+    restart () {
+        this.stop()
+        this.start()
+    }
 }
