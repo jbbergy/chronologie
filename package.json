@@ -1,6 +1,6 @@
 {
   "name": "chronologiejs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Jean-baptiste Bergy",
   "license": "MIT",
   "description": "Trigger event at specific timecode",
@@ -17,9 +17,21 @@
     "build-dev": "parcel build ./src/index.js --no-minify --public-url ./",
     "build": "parcel build ./src/index.js --public-url ./"
   },
-  "keywords": ["chrono", "chronologie", "chronologiejs", "trigger", "time", 
-    "timeline", "event", "events", "functions", "function", "methods", "method", "callback"],
-
+  "keywords": [
+    "chrono",
+    "chronologie",
+    "chronologiejs",
+    "trigger",
+    "time",
+    "timeline",
+    "event",
+    "events",
+    "functions",
+    "function",
+    "methods",
+    "method",
+    "callback"
+  ],
   "devDependencies": {
     "sass": "~1.32.8"
   },
