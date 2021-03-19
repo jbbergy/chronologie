@@ -30,7 +30,7 @@ window.onload = () => {
         events.push(new Event( index, backgroundFlash))
     }
     console.log('Events queue builded')
-    
+
     startBtn.disabled = false
     stopBtn.disabled = false
     restartBtn.disabled = false
@@ -41,6 +41,7 @@ window.onload = () => {
         try {
             if (audioElement) {
                 audioElement.volume = 0.30
+                audioElement.currentTime = 0
                 audioElement.play()
             }
             chronologie.start()
