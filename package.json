@@ -1,6 +1,6 @@
 {
   "name": "chronologiejs",
-  "version": "1.0.0",
+  "version": "1.0.2-beta1",
   "author": "Jean-baptiste Bergy",
   "license": "MIT",
   "description": "Trigger event at specific timecode",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/jbbergy/chronologiejs.git"
   },
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build-dev": "parcel build ./src/index.js --no-minify --public-url ./",
     "build": "parcel build ./src/index.js --public-url ./"
