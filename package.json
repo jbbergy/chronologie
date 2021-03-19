@@ -7,10 +7,14 @@
     "build-dev": "parcel build ./src/index.js --no-minify --public-url ./",
     "build": "parcel build ./src/index.js --public-url ./"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["chrono", "chronologie", "chronologiejs", "trigger", "time", 
+    "timeline", "event", "events", "functions", "function", "methods", "method", "callback"],
+  "author": "Jean-baptiste Bergy",
+  "license": "MIT",
   "devDependencies": {
-    "sass": "^1.32.8"
+    "sass": "~1.32.8"
+  },
+  "engines": {
+    "node": ">= 12.0.0"
   }
 }
