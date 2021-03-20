@@ -39,6 +39,7 @@ export default class Chronologie {
                 console.log('ChronologieJS: event', evt.uuid ,' triggered at ', Date.now())
                 evt.callback()
                 evt.triggered = true
+                clearTimeout(evt.timerId)
                 if(this.isAllEventsTriggered()) {
                     this.stop()
                 }
@@ -75,9 +76,6 @@ export default class Chronologie {
         this.timestampEnd = Date.now()
         console.log('ChronologieJS: STOP duration ', (this.timestampEnd - this.timestampStart), 'ms')
         this.events.forEach(evt => {
-            if (!evt.triggered) {
-                clearTimeout(evt.timerId)
-            }
             evt.triggered = false
         })
     }
