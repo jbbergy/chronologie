@@ -1,10 +1,15 @@
 import { TIME_UNIT_VALUE, TIME_UNIT } from './enums'
 
 export default class Chronologie {
-    constructor () {
+    constructor (showLogs) {
         this.events = []
         this.timestampStart = null
         this.timestampEnd = null
+        this.showLogs = showLogs ?? false
+    }
+
+    log (...messages) {
+        if (messages && this.showLogs) console.log(messages.join(' '))
     }
 
     addEvent (event) {
@@ -23,7 +28,7 @@ export default class Chronologie {
 
     start () {
         this.timestampStart = Date.now()
-        console.log('ChronologieJS : START', this.timestampStart, 'ms')
+        this.log('ChronologieJS : START', this.timestampStart, 'ms')
         if (this.intervalId) {
             throw Error('You already start the chronologie.')
             return
@@ -36,7 +41,7 @@ export default class Chronologie {
 
         this.events.forEach(evt => {
             evt.timerId = setTimeout(() => {
-                console.log('ChronologieJS: event', evt.uuid ,' triggered at ', Date.now())
+                this.log('ChronologieJS: event', evt.uuid ,' triggered at ', Date.now())
                 evt.callback()
                 evt.triggered = true
                 clearTimeout(evt.timerId)
@@ -74,8 +79,14 @@ export default class Chronologie {
 
     stop () {
         this.timestampEnd = Date.now()
-        console.log('ChronologieJS: STOP duration ', (this.timestampEnd - this.timestampStart), 'ms')
-        this.events.forEach(evt => {
+        this.log('ChronologieJS: STOP duration ', (this.timestampEnd - this.timestampStart), 'ms')
+        this.events.filter(evt => evt.triggered === false)
+        ?.forEach(evt => {
+            clearTimeout(evt.timerId)
+        })
+
+        this.events.filter(evt => evt.triggered === true)
+        ?.forEach(evt => {
             evt.triggered = false
         })
     }
