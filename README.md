@@ -48,6 +48,22 @@ chronologie.restart()
 
 ## Event pool processing
 All your declared events have a callback function. When you call the `start` method, the pool will be processed. when the time you configured in an event is reached, the callback function is triggered.
+
+## Callback function
+It's a function made by yourself. In this function you can do what you need : manipulate the DOM, play a sound, etc
+```js
+function playASound() {
+  const mediaElement = document.querySelector('#sound-element')
+  mediaElement.volume = 0.30
+  mediaElement.currentTime = 0
+  mediaElement.play()
+}
+
+const myEvent = new ChronologieEvent( 1500, playASound)
+
+chronologie.addEvent(myEvent)
+
+```
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

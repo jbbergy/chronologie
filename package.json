@@ -1,6 +1,6 @@
 {
   "name": "chronologiejs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Jean-baptiste Bergy",
   "license": "MIT",
   "description": "Trigger event at specific timecode",
