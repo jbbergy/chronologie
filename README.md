@@ -29,7 +29,7 @@ chronologie.addEvent(event2)
 chronologie.start()
 
 // stop processing the events pool
-chronologie.start()
+chronologie.stop()
 
 // stop and start processing the events pool
 chronologie.restart()
